@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+	<meta charset='utf-8' />
+	<title>Listas Desplegables con jQuery</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+	<script type="text/javascript" src='js/jquery-1.7.1.min.js'></script>
+	<script type="text/javascript">
+		$(function(){
+			var data = "accion=carga_dpto";
+			$.get('ubigeo.php', data, function(resp){
+				$('#sDep').html(resp);
+				carga_provincias();
+			});
+			$('#sDep').on('change', carga_provincias);
+			$('#sPro').on('change', carga_distritos);
+			$('#sDis').on('change', carga_centros);
+		});
+	
+		function carga_provincias(){
+			var cd = $('#sDep').val();
+			var data = "accion=carga_prov&cd=" + cd;
+			$.get('ubigeo.php', data, function(resp){
+				$('#sPro').html(resp);
+				carga_distritos();
+			});
+		}
+
+		function carga_distritos(){
+			var cp = $('#sPro').val();
+			var data = "accion=carga_dist&cp=" + cp;
+			$.get('ubigeo.php', data, function(resp){
+				$('#sDis').html(resp);
+				carga_centros();
+			});
+		}
+		function carga_centros(){
+			var cd = $('#sDis').val();
+			var data = "accion=carga_cent&cd=" + cd;
+			$.get('ubigeo.php', data, function(resp){
+				$('#sCen').html(resp);
+			});
+		}
+	</script>
+</head>
+<body>
+	<h1>Listas Desplegables con jQuery</h1>
+	<p>
+		<label for='dpto'>Departamentos:</label>
+		<select id='sDep' class='medium'></select>
+	</p>
+	<p>
+		<label for='prov'>Provincias:</label>
+		<select id='sPro'></select>
+	</p>
+	<p>
+		<label for='dist'>Distritos:</label>
+		<select id='sDis' class='xlarge'></select>
+	</p>
+	<p>
+		<label for='ctro'>Centros:</label>
+		<select id='sCen' class='xxlarge'></select>
+	</p>
+
+</body>
+</html>
